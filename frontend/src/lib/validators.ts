@@ -5,6 +5,15 @@ export const loginSchema = z.object({
   password: z.string().min(1, 'Senha é obrigatória'),
 });
 
+export const registerSchema = z.object({
+  name: z.string().min(1, 'Nome é obrigatório'),
+  email: z.string().email('Email inválido'),
+  password: z.string().min(6, 'Mínimo 6 caracteres'),
+  company_name: z.string().optional().or(z.literal('')),
+  corporate_name: z.string().optional().or(z.literal('')),
+  cnpj: z.string().optional().or(z.literal('')),
+});
+
 export const clientSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
   email: z.string().email('Email inválido').optional().or(z.literal('')),
@@ -111,6 +120,7 @@ export const estimatesReportSchema = z.object({
 });
 
 export type LoginFormData = z.infer<typeof loginSchema>;
+export type RegisterFormData = z.infer<typeof registerSchema>;
 export type ClientFormData = z.infer<typeof clientSchema>;
 export type ProjectFormData = z.infer<typeof projectSchema>;
 export type TaskFormData = z.infer<typeof taskSchema>;

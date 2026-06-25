@@ -183,6 +183,15 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface RegisterData {
+  name: string;
+  email: string;
+  password: string;
+  company_name?: string;
+  corporate_name?: string;
+  cnpj?: string;
+}
+
 export interface LoginResponse {
   token: string;
   user: AuthUser;

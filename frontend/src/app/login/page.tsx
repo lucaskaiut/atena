@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/stores/authStore';
 import { Lock, Mail } from 'lucide-react';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const { login, isLoading, loginError } = useAuth();
@@ -83,6 +84,13 @@ export default function LoginPage() {
               Entrar
             </Button>
           </form>
+
+          <p className="mt-6 text-center text-sm text-gray-500">
+            Não tem uma conta?{' '}
+            <Link href="/register" className="text-primary font-medium hover:underline">
+              Criar conta
+            </Link>
+          </p>
         </div>
       </div>
     </div>
