@@ -1,0 +1,129 @@
+services:
+  # ===========================================
+  # MySQL 8.4 Database
+  # ===========================================
+  mysql:
+    image: mysql:8.4
+    container_name: atena-mysql
+    restart: unless-stopped
+    ports:
+      - "${MYSQL_PORT}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - atena-network
+
+  # ===========================================
+  # Redis (Cache & Queues)
+  # ===========================================
+  redis:
+    image: redis:7-alpine
+    container_name: atena-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - atena-network
+
+  # ===========================================
+  # Laravel Backend (PHP 8.4 FPM)
+  # ===========================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/backend/Dockerfile
+    container_name: atena-backend
+    restart: unless-stopped
+    expose:
+      - "8000"
+    volumes:
+      - ./backend:/var/www
+      - backend_vendor:/var/www/vendor
+    environment:
+      APP_ENV: ${APP_ENV}
+      APP_DEBUG: ${APP_DEBUG}
+      APP_URL: http://localhost:${NGINX_PORT}
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SANCTUM_STATEFUL_DOMAINS: localhost
+      SESSION_DOMAIN: localhost
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - atena-network
+
+  # ===========================================
+  # Next.js Frontend
+  # ===========================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/frontend/Dockerfile
+      target: development
+    container_name: atena-frontend
+    restart: unless-stopped
+    expose:
+      - "3000"
+    ports:
+      - "${FRONTEND_PORT}:3000"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+      - frontend_next:/app/.next
+    environment:
+      NEXT_PUBLIC_API_URL: /api
+      NEXT_TELEMETRY_DISABLED: 1
+    depends_on:
+      - backend
+    networks:
+      - atena-network
+
+  # ===========================================
+  # Nginx Reverse Proxy
+  # ===========================================
+  nginx:
+    image: nginx:alpine
+    container_name: atena-nginx
+    restart: unless-stopped
+    ports:
+      - "${NGINX_PORT}:80"
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - atena-network
+
+volumes:
+  mysql_data:
+  redis_data:
+  backend_vendor:
+  frontend_node_modules:
+  frontend_next:
+
+networks:
+  atena-network:
+    driver: bridge

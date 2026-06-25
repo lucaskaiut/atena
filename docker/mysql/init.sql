@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS atena_testing;
+GRANT ALL PRIVILEGES ON atena_testing.* TO 'atena'@'%';
+FLUSH PRIVILEGES;
