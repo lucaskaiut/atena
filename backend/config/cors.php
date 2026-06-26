@@ -6,7 +6,12 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('APP_URL', 'http://localhost:80'), 'http://localhost:3000', 'http://localhost:80'],
+    'allowed_origins' => [
+        env('APP_URL', 'http://localhost:80'),
+        env('FRONTEND_URL', 'http://localhost:3000'),
+        'http://localhost:3000',
+        'http://localhost:80',
+    ],
 
     'allowed_origins_patterns' => [],
 
