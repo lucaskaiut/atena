@@ -10,7 +10,6 @@ import {
 } from '@/hooks/useProjects';
 import { useClients } from '@/hooks/useClients';
 import { useStatuses } from '@/hooks/useStatuses';
-import { useSprints } from '@/hooks/useSprints';
 import { useUsers } from '@/hooks/useUsers';
 import { Table } from '@/components/ui/Table';
 import { Button } from '@/components/ui/Button';
@@ -39,7 +38,6 @@ export default function ProjectsPage() {
   const { data, isLoading } = useProjects(page, search, filters);
   const { data: clientsData } = useClients(1, '');
   const { data: statuses = [] } = useStatuses('project');
-  const { data: sprintsData } = useSprints(1, '');
   const { data: usersData } = useUsers(1, '');
   const createProject = useCreateProject();
   const updateProject = useUpdateProject();
@@ -62,12 +60,6 @@ export default function ProjectsPage() {
     value: s.id,
     label: s.name,
   }));
-
-  const sprintOptions =
-    sprintsData?.data.map((s) => ({
-      value: s.id,
-      label: s.name,
-    })) || [];
 
   function handleCreate() {
     setSelectedProject(null);
@@ -296,7 +288,6 @@ export default function ProjectsPage() {
           clientOptions={clientOptions}
           managerOptions={managerOptions}
           statusOptions={statusOptions}
-          sprintOptions={sprintOptions}
         />
       </Modal>
 

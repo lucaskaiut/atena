@@ -34,7 +34,6 @@ export const projectSchema = z.object({
   planned_start_date: z.string().optional().or(z.literal('')),
   planned_end_date: z.string().optional().or(z.literal('')),
   budget: z.number().min(0).nullable().optional(),
-  sprint_id: z.number().nullable().optional(),
 });
 
 export const taskSchema = z.object({
@@ -65,7 +64,6 @@ export const sprintSchema = z.object({
   goal: z.string().optional().or(z.literal('')),
   start_date: z.string().min(1, 'Data de início é obrigatória'),
   end_date: z.string().min(1, 'Data de término é obrigatória'),
-  project_id: z.number().nullable().optional(),
 });
 
 export const statusSchema = z.object({

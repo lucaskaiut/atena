@@ -7,7 +7,6 @@ import {
   useUpdateSprint,
   useCloseSprint,
 } from '@/hooks/useSprints';
-import { useProjects } from '@/hooks/useProjects';
 import { Table } from '@/components/ui/Table';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -30,16 +29,9 @@ export default function SprintsPage() {
   const [selectedSprint, setSelectedSprint] = useState<Sprint | null>(null);
 
   const { data, isLoading } = useSprints(page, search);
-  const { data: projectsData } = useProjects(1, '');
   const createSprint = useCreateSprint();
   const updateSprint = useUpdateSprint();
   const closeSprint = useCloseSprint();
-
-  const projectOptions =
-    projectsData?.data.map((p) => ({
-      value: p.id,
-      label: p.name,
-    })) || [];
 
   function handleCreate() {
     setSelectedSprint(null);
@@ -194,7 +186,6 @@ export default function SprintsPage() {
             }
           }}
           isLoading={createSprint.isPending || updateSprint.isPending}
-          projectOptions={projectOptions}
         />
       </Modal>
 

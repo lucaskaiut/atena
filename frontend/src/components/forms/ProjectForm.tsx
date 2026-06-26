@@ -22,7 +22,6 @@ interface ProjectFormProps {
   clientOptions: { value: number; label: string }[];
   managerOptions: { value: number; label: string }[];
   statusOptions: { value: number; label: string }[];
-  sprintOptions: { value: number; label: string }[];
 }
 
 export function ProjectForm({
@@ -32,7 +31,6 @@ export function ProjectForm({
   clientOptions,
   managerOptions,
   statusOptions,
-  sprintOptions,
 }: ProjectFormProps) {
   const defaultValues: ProjectFormData = initialData
     ? {
@@ -46,7 +44,6 @@ export function ProjectForm({
         planned_start_date: initialData.planned_start_date || '',
         planned_end_date: initialData.planned_end_date || '',
         budget: initialData.budget || null,
-        sprint_id: initialData.sprint_id || null,
       }
     : {
         name: '',
@@ -59,7 +56,6 @@ export function ProjectForm({
         planned_start_date: '',
         planned_end_date: '',
         budget: null,
-        sprint_id: null,
       };
 
   const {
@@ -152,13 +148,6 @@ export function ProjectForm({
           {...register('planned_end_date')}
         />
       </div>
-      <Select
-        label="Sprint"
-        id="sprint_id"
-        {...register('sprint_id', { valueAsNumber: true })}
-        options={sprintOptions}
-        placeholderOption="Selecione..."
-      />
       <div className="flex justify-end pt-2">
         <Button type="submit" isLoading={isLoading}>
           {initialData ? 'Atualizar' : 'Criar'} Projeto

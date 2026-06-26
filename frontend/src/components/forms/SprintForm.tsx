@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { sprintSchema, SprintFormData } from '@/lib/validators';
 import { Input } from '@/components/ui/Input';
-import { Select } from '@/components/ui/Select';
 import { Button } from '@/components/ui/Button';
 import { Sprint } from '@/types';
 
@@ -12,10 +11,9 @@ interface SprintFormProps {
   onSubmit: (data: SprintFormData) => void;
   isLoading?: boolean;
   initialData?: Sprint | null;
-  projectOptions: { value: number; label: string }[];
 }
 
-export function SprintForm({ onSubmit, isLoading, initialData, projectOptions }: SprintFormProps) {
+export function SprintForm({ onSubmit, isLoading, initialData }: SprintFormProps) {
   const {
     register,
     handleSubmit,
@@ -28,14 +26,12 @@ export function SprintForm({ onSubmit, isLoading, initialData, projectOptions }:
           goal: initialData.goal || '',
           start_date: initialData.start_date?.split('T')[0] || '',
           end_date: initialData.end_date?.split('T')[0] || '',
-          project_id: initialData.project_id || null,
         }
       : {
           name: '',
           goal: '',
           start_date: '',
           end_date: '',
-          project_id: null,
         },
   });
 
@@ -74,13 +70,6 @@ export function SprintForm({ onSubmit, isLoading, initialData, projectOptions }:
           error={errors.end_date?.message}
         />
       </div>
-      <Select
-        label="Projeto"
-        id="project_id"
-        {...register('project_id', { valueAsNumber: true })}
-        options={projectOptions}
-        placeholderOption="Selecione..."
-      />
       <div className="flex justify-end pt-2">
         <Button type="submit" isLoading={isLoading}>
           {initialData ? 'Atualizar' : 'Criar'} Sprint
