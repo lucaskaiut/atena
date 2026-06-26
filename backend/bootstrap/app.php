@@ -12,9 +12,6 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->api(prepend: [
-            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-        ]);
         $middleware->alias([
             'set.company' => \App\Http\Middleware\SetCompanyFromUser::class,
             'auth.cookie' => \App\Http\Middleware\AuthenticateWithCookie::class,
