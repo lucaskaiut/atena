@@ -8,8 +8,19 @@ import { AuthUser } from '@/types';
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { token, setUser, clearAuth, setLoading, isAuthenticated } = useAuthStore();
   const [ready, setReady] = useState(false);
+  const [hydrated, setHydrated] = useState(useAuthStore.persist.hasHydrated());
 
   useEffect(() => {
+    if (hydrated) return;
+    const unsub = useAuthStore.persist.onFinishHydration(() => {
+      setHydrated(true);
+    });
+    return () => unsub();
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
+
     if (isAuthenticated && token) {
       setReady(true);
       return;
@@ -32,7 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         clearAuth();
         setReady(true);
       });
-  }, []);
+  }, [hydrated]);
 
   if (!ready) {
     return null;
