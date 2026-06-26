@@ -297,7 +297,7 @@ export default function ProjectsPage() {
         onConfirm={() => {
           if (selectedProject) {
             closeProject.mutate(
-              { id: selectedProject.id, status: closeType },
+              selectedProject.id,
               { onSuccess: () => setCloseOpen(false) }
             );
           }

@@ -23,4 +23,16 @@ class DashboardController extends Controller
         $productivity = $this->dashboardService->productivity();
         return response()->json($productivity);
     }
+
+    public function tasksByStatus(): JsonResponse
+    {
+        $data = $this->dashboardService->tasksByStatus();
+        return response()->json($data);
+    }
+
+    public function recentTasks(): JsonResponse
+    {
+        $tasks = $this->dashboardService->recentTasks();
+        return response()->json($tasks);
+    }
 }

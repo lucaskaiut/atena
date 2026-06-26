@@ -55,4 +55,15 @@ class TimeEntryService
     {
         return $this->repository->byTask($taskId);
     }
+
+    public function stop(int $id)
+    {
+        return $this->repository->pause($id);
+    }
+
+    public function delete(int $id): void
+    {
+        $entry = $this->repository->find($id);
+        $entry->delete();
+    }
 }

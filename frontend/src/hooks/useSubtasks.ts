@@ -36,7 +36,7 @@ export function useUpdateSubtask() {
   return useMutation({
     mutationFn: async ({ id, task_id, ...payload }: SubtaskFormData & { id: number; task_id: number }) => {
       const { data } = await api.put<ApiResponse<Subtask>>(
-        `/tasks/${task_id}/subtasks/${id}`,
+        `/subtasks/${id}`,
         payload
       );
       return data;
@@ -51,7 +51,7 @@ export function useDeleteSubtask() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, taskId }: { id: number; taskId: number }) => {
-      await api.delete(`/tasks/${taskId}/subtasks/${id}`);
+      await api.delete(`/subtasks/${id}`);
     },
     onSuccess: (_, vars) => {
       queryClient.invalidateQueries({ queryKey: ['subtasks', vars.taskId] });

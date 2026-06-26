@@ -56,4 +56,16 @@ class TimeEntryController extends Controller
         $entries = $this->timeEntryService->byTask($taskId);
         return response()->json(TimeEntryResource::collection($entries)->response()->getData(true));
     }
+
+    public function stop(int $id): JsonResponse
+    {
+        $entry = $this->timeEntryService->stop($id);
+        return (new TimeEntryResource($entry))->response();
+    }
+
+    public function destroy(int $id): JsonResponse
+    {
+        $this->timeEntryService->delete($id);
+        return response()->json(['message' => 'Time entry deleted']);
+    }
 }

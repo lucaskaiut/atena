@@ -56,7 +56,7 @@ export function useCloseSprint() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: number) => {
-      const { data } = await api.post<ApiResponse<Sprint>>(`/sprints/${id}/close`);
+      const { data } = await api.patch<ApiResponse<Sprint>>(`/sprints/${id}/close`);
       return data;
     },
     onSuccess: () => {

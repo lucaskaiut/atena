@@ -30,4 +30,10 @@ class NotificationController extends Controller
         $this->notificationService->markAllAsRead(auth()->id());
         return response()->json(['message' => 'All notifications marked as read']);
     }
+
+    public function unreadCount(): JsonResponse
+    {
+        $count = $this->notificationService->unreadCount(auth()->id());
+        return response()->json(['count' => $count]);
+    }
 }

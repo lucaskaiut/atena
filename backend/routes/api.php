@@ -27,7 +27,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/dashboard/stats', [DashboardController::class, 'index']);
     Route::get('/dashboard/productivity', [DashboardController::class, 'productivity']);
+    Route::get('/dashboard/tasks-by-status', [DashboardController::class, 'tasksByStatus']);
+    Route::get('/dashboard/recent-tasks', [DashboardController::class, 'recentTasks']);
 
     Route::get('/search', [SearchController::class, 'index']);
 
@@ -66,9 +69,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/tasks/{taskId}/time-entries/start', [TimeEntryController::class, 'start']);
     Route::patch('/time-entries/{id}/pause', [TimeEntryController::class, 'pause']);
     Route::patch('/time-entries/{id}/resume', [TimeEntryController::class, 'resume']);
+    Route::patch('/time-entries/{id}/stop', [TimeEntryController::class, 'stop']);
     Route::post('/tasks/{taskId}/time-entries', [TimeEntryController::class, 'store']);
     Route::get('/time-entries', [TimeEntryController::class, 'index']);
     Route::get('/tasks/{taskId}/time-entries', [TimeEntryController::class, 'byTask']);
+    Route::delete('/time-entries/{id}', [TimeEntryController::class, 'destroy']);
 
     Route::get('/sprints', [SprintController::class, 'index']);
     Route::post('/sprints', [SprintController::class, 'store']);
@@ -86,6 +91,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/reports/estimates', [ReportController::class, 'estimates']);
 
     Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount']);
     Route::patch('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
     Route::patch('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
 });

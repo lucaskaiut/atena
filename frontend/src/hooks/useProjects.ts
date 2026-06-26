@@ -55,8 +55,8 @@ export function useUpdateProject() {
 export function useCloseProject() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, status }: { id: number; status: string }) => {
-      const { data } = await api.post<ApiResponse<Project>>(`/projects/${id}/close`, { status });
+    mutationFn: async (id: number) => {
+      const { data } = await api.patch<ApiResponse<Project>>(`/projects/${id}/close`);
       return data;
     },
     onSuccess: () => {

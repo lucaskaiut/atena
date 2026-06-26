@@ -24,4 +24,9 @@ class NotificationService
     {
         $this->repository->markAllAsRead($userId);
     }
+
+    public function unreadCount(int $userId)
+    {
+        return $this->repository->unreadCount($userId);
+    }
 }

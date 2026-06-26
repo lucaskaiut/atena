@@ -23,8 +23,7 @@ export function useStartTimeEntry() {
       task_id: number;
       description?: string;
     }) => {
-      const { data } = await api.post<ApiResponse<TimeEntry>>('/time-entries/start', {
-        task_id,
+      const { data } = await api.post<ApiResponse<TimeEntry>>(`/tasks/${task_id}/time-entries/start`, {
         description,
       });
       return data;

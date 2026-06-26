@@ -58,4 +58,25 @@ class DashboardService
                 ];
             });
     }
+
+    public function tasksByStatus()
+    {
+        return \App\Models\Status::withCount('tasks')
+            ->get()
+            ->map(function($status) {
+                return [
+                    'status' => $status->name,
+                    'count' => $status->tasks_count,
+                    'color' => $status->color,
+                ];
+            });
+    }
+
+    public function recentTasks()
+    {
+        return Task::with(['project', 'status'])
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+    }
 }

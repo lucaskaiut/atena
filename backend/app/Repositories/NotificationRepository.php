@@ -33,4 +33,11 @@ class NotificationRepository implements NotificationRepositoryInterface
     {
         return Notification::create($data);
     }
+
+    public function unreadCount(int $userId): int
+    {
+        return Notification::where('user_id', $userId)
+            ->whereNull('read_at')
+            ->count();
+    }
 }
