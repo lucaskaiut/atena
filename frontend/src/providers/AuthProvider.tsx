@@ -8,14 +8,24 @@ import { AuthUser } from '@/types';
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { token, setUser, clearAuth, setLoading, isAuthenticated } = useAuthStore();
   const [ready, setReady] = useState(false);
-  const [hydrated, setHydrated] = useState(useAuthStore.persist.hasHydrated());
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    if (hydrated) return;
-    const unsub = useAuthStore.persist.onFinishHydration(() => {
+    const persist = useAuthStore.persist;
+
+    if (!persist) {
       setHydrated(true);
-    });
-    return () => unsub();
+      return;
+    }
+
+    if (persist.hasHydrated()) {
+      setHydrated(true);
+    } else {
+      const unsub = persist.onFinishHydration(() => {
+        setHydrated(true);
+      });
+      return () => unsub();
+    }
   }, []);
 
   useEffect(() => {
