@@ -54,7 +54,7 @@ export default function StatusesPage() {
     reordered.splice(dropIndex, 0, removed);
 
     reorderStatuses.mutate(
-      reordered.map((s, i) => ({ id: s.id, order: i }))
+      reordered.map((s, i) => ({ id: s.id, position: i }))
     );
   }
 
@@ -119,7 +119,7 @@ export default function StatusesPage() {
                   {status.name}
                 </span>
                 <span className="ml-2 text-xs text-gray-500">
-                  Ordem: {status.order}
+                  Ordem: {status.position}
                 </span>
               </div>
               <Badge
@@ -157,11 +157,11 @@ export default function StatusesPage() {
               ? {
                   name: selectedStatus.name,
                   color: selectedStatus.color,
-                  order: selectedStatus.order,
+                  position: selectedStatus.position,
                   is_active: selectedStatus.is_active,
                   type: selectedStatus.type,
                 }
-              : { name: '', color: '#3b82f6', order: statuses.length, is_active: true, type }
+              : { name: '', color: '#3b82f6', position: statuses.length, is_active: true, type }
           }
           onSubmit={(data) => {
             if (selectedStatus) {

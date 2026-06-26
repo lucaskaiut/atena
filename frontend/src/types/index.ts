@@ -33,7 +33,7 @@ export interface ProjectStatus {
   id: number;
   name: string;
   color: string;
-  order: number;
+  position: number;
   is_active: boolean;
   type: 'project' | 'task';
 }

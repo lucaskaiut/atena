@@ -13,6 +13,9 @@ class StatusRepository implements StatusRepositoryInterface
         if (isset($filters['is_active'])) {
             $query->where('is_active', $filters['is_active']);
         }
+        if (isset($filters['type'])) {
+            $query->where('type', $filters['type']);
+        }
         return $query->orderBy('position')->get();
     }
 

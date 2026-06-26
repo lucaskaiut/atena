@@ -17,6 +17,7 @@ class Status extends Model
         'color',
         'position',
         'is_active',
+        'type',
     ];
 
     protected $casts = [

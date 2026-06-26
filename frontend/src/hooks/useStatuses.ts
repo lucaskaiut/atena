@@ -42,8 +42,8 @@ export function useUpdateStatus() {
 export function useReorderStatuses() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (orderedIds: { id: number; order: number }[]) => {
-      const { data } = await api.post('/statuses/reorder', { statuses: orderedIds });
+    mutationFn: async (orderedIds: { id: number; position: number }[]) => {
+      const { data } = await api.patch('/statuses/reorder', { positions: orderedIds });
       return data;
     },
     onSuccess: () => {

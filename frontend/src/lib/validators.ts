@@ -71,7 +71,7 @@ export const sprintSchema = z.object({
 export const statusSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório'),
   color: z.string().min(1, 'Cor é obrigatória'),
-  order: z.number().int().min(0),
+  position: z.number().int().min(0),
   is_active: z.boolean(),
   type: z.enum(['project', 'task']),
 });

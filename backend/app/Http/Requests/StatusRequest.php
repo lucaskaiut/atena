@@ -13,6 +13,7 @@ class StatusRequest extends FormRequest
             'color' => 'nullable|string|max:7',
             'position' => 'nullable|integer|min:0',
             'is_active' => 'nullable|boolean',
+            'type' => 'nullable|in:project,task',
         ];
     }
 }

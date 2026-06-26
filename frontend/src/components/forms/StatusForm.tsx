@@ -23,7 +23,7 @@ export function StatusForm({ onSubmit, isLoading, initialData }: StatusFormProps
     defaultValues: initialData || {
       name: '',
       color: '#3b82f6',
-      order: 0,
+      position: 0,
       is_active: true,
       type: 'task',
     },
@@ -51,10 +51,10 @@ export function StatusForm({ onSubmit, isLoading, initialData }: StatusFormProps
         </div>
         <Input
           label="Ordem"
-          id="order"
+          id="position"
           type="number"
-          {...register('order', { valueAsNumber: true })}
-          error={errors.order?.message}
+          {...register('position', { valueAsNumber: true })}
+          error={errors.position?.message}
         />
       </div>
       <div className="grid grid-cols-2 gap-4">
