@@ -5,7 +5,7 @@ import { GanttChart } from '@/components/gantt/GanttChart';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { Select } from '@/components/ui/Select';
 import api from '@/lib/api';
-import { Task, Project, ApiResponse } from '@/types';
+import { Task, Project } from '@/types';
 
 interface GanttProject {
   id: number;
@@ -23,17 +23,12 @@ export default function GanttPage() {
 
   useEffect(() => {
     setIsLoading(true);
-    Promise.all([
-      api.get<ApiResponse<GanttProject[]>>(
-        `/gantt/projects${projectId ? `?project_id=${projectId}` : ''}`
-      ),
-      api.get<ApiResponse<Task[]>>(
-        `/gantt/tasks${projectId ? `?project_id=${projectId}` : ''}`
-      ),
-    ])
-      .then(([projRes, taskRes]) => {
-        setProjects(projRes.data.data || []);
-        setTasks(taskRes.data.data || []);
+    api.get<{ projects: GanttProject[]; tasks: Task[] }>(
+      `/gantt${projectId ? `?project_id=${projectId}` : ''}`
+    )
+      .then(({ data }) => {
+        setProjects(data.projects || []);
+        setTasks(data.tasks || []);
       })
       .catch(() => {
         setProjects([]);

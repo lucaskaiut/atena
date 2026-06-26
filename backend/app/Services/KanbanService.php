@@ -31,9 +31,12 @@ class KanbanService
             }
 
             $result[] = [
-                'column' => $status->name,
                 'status_id' => $status->id,
-                'color' => $status->color,
+                'status' => [
+                    'id' => $status->id,
+                    'name' => $status->name,
+                    'color' => $status->color,
+                ],
                 'tasks' => $query->get(),
             ];
         }

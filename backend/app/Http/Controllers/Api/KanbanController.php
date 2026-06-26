@@ -16,7 +16,7 @@ class KanbanController extends Controller
     public function index(Request $request): JsonResponse
     {
         $columns = $this->kanbanService->getColumns($request->all());
-        return response()->json($columns);
+        return response()->json(['data' => $columns]);
     }
 
     public function move(Request $request): JsonResponse
