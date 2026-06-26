@@ -88,6 +88,12 @@ export const timeEntrySchema = z.object({
   description: z.string().optional().or(z.literal('')),
 });
 
+export const manualTimeEntrySchema = z.object({
+  start_time: z.string().min(1, 'Data/hora de início é obrigatória'),
+  end_time: z.string().min(1, 'Data/hora de fim é obrigatória'),
+  description: z.string().optional().or(z.literal('')),
+});
+
 export const commentSchema = z.object({
   content: z.string().min(1, 'Comentário é obrigatório'),
 });
@@ -127,4 +133,5 @@ export type SprintFormData = z.infer<typeof sprintSchema>;
 export type StatusFormData = z.infer<typeof statusSchema>;
 export type UserFormData = z.infer<typeof userFormSchema>;
 export type TimeEntryFormData = z.infer<typeof timeEntrySchema>;
+export type ManualTimeEntryFormData = z.infer<typeof manualTimeEntrySchema>;
 export type CommentFormData = z.infer<typeof commentSchema>;

@@ -18,6 +18,7 @@ class TimeEntryResource extends JsonResource
             'end_time' => $this->end_time,
             'duration_minutes' => $this->duration_minutes,
             'is_manual' => $this->is_manual,
+            'is_running' => $this->end_time === null,
             'description' => $this->description,
             'user' => new UserResource($this->whenLoaded('user')),
             'task' => new TaskResource($this->whenLoaded('task')),

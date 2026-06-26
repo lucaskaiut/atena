@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import api from '@/lib/api';
 import { TimeEntry, ApiResponse } from '@/types';
+import { ManualTimeEntryFormData } from '@/lib/validators';
 
 export function useTimeEntries(taskId: number) {
   return useQuery({
@@ -56,6 +57,26 @@ export function useDeleteTimeEntry() {
   return useMutation({
     mutationFn: async (id: number) => {
       await api.delete(`/time-entries/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['timeEntries'] });
+      queryClient.invalidateQueries({ queryKey: ['task'] });
+    },
+  });
+}
+
+export function useCreateManualEntry() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      task_id,
+      ...payload
+    }: ManualTimeEntryFormData & { task_id: number }) => {
+      const { data } = await api.post<ApiResponse<TimeEntry>>(
+        `/tasks/${task_id}/time-entries`,
+        payload
+      );
+      return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['timeEntries'] });
