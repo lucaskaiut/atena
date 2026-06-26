@@ -78,6 +78,11 @@ class Task extends Model
         return $this->hasMany(TimeEntry::class);
     }
 
+    public function getWorkedHoursAttribute(): float
+    {
+        return round($this->timeEntries()->sum('duration_minutes') / 60, 2);
+    }
+
     public function getProgressAttribute(): float
     {
         $total = $this->subtasks()->count();

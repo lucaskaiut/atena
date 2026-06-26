@@ -60,4 +60,9 @@ class Project extends Model
     {
         return $this->hasMany(Sprint::class);
     }
+
+    public function getWorkedHoursAttribute(): float
+    {
+        return round(TimeEntry::whereIn('task_id', $this->tasks()->pluck('id'))->sum('duration_minutes') / 60, 2);
+    }
 }
