@@ -11,6 +11,7 @@ import {
 import { useClients } from '@/hooks/useClients';
 import { useStatuses } from '@/hooks/useStatuses';
 import { useSprints } from '@/hooks/useSprints';
+import { useUsers } from '@/hooks/useUsers';
 import { Table } from '@/components/ui/Table';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -39,6 +40,7 @@ export default function ProjectsPage() {
   const { data: clientsData } = useClients(1, '');
   const { data: statuses = [] } = useStatuses('project');
   const { data: sprintsData } = useSprints(1, '');
+  const { data: usersData } = useUsers(1, '');
   const createProject = useCreateProject();
   const updateProject = useUpdateProject();
   const deleteProject = useDeleteProject();
@@ -50,9 +52,11 @@ export default function ProjectsPage() {
       label: c.name,
     })) || [];
 
-  const managerOptions = [
-    { value: 1, label: 'Gerente 1' },
-  ];
+  const managerOptions =
+    usersData?.data.map((u) => ({
+      value: u.id,
+      label: u.name,
+    })) || [];
 
   const statusOptions = statuses.map((s) => ({
     value: s.id,
