@@ -213,12 +213,10 @@ export interface ApiResponse<T> {
 }
 
 export interface DashboardStats {
-  active_projects: number;
-  pending_tasks: number;
-  completed_tasks: number;
+  total_projects: number;
+  total_tasks: number;
   hours_worked: number;
   hours_estimated: number;
-  late_tasks: number;
   active_sprints: number;
 }
 

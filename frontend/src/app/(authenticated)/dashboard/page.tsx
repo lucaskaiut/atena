@@ -17,11 +17,9 @@ import { useRouter } from 'next/navigation';
 import {
   FolderKanban,
   ListTodo,
-  CheckCircle2,
   Clock,
-  AlertTriangle,
-  Timer,
   BarChart3,
+  Timer,
 } from 'lucide-react';
 
 export default function DashboardPage() {
@@ -36,48 +34,36 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         <StatCard
-          title="Projetos Ativos"
-          value={statsLoading ? '-' : stats?.active_projects || 0}
+          title="Projetos"
+          value={statsLoading ? '-' : stats?.total_projects || 0}
           icon={<FolderKanban className="h-6 w-6" />}
           color="blue"
         />
         <StatCard
-          title="Tarefas Pendentes"
-          value={statsLoading ? '-' : stats?.pending_tasks || 0}
+          title="Tarefas"
+          value={statsLoading ? '-' : stats?.total_tasks || 0}
           icon={<ListTodo className="h-6 w-6" />}
           color="yellow"
         />
         <StatCard
-          title="Tarefas Concluídas"
-          value={statsLoading ? '-' : stats?.completed_tasks || 0}
-          icon={<CheckCircle2 className="h-6 w-6" />}
-          color="green"
-        />
-        <StatCard
-          title="Horas Trabalhadas"
+          title="Horas Trab."
           value={statsLoading ? '-' : `${stats?.hours_worked || 0}h`}
           icon={<Clock className="h-6 w-6" />}
           color="purple"
         />
         <StatCard
-          title="Horas Estimadas"
+          title="Horas Est."
           value={statsLoading ? '-' : `${stats?.hours_estimated || 0}h`}
           icon={<BarChart3 className="h-6 w-6" />}
           color="indigo"
         />
         <StatCard
-          title="Tarefas Atrasadas"
-          value={statsLoading ? '-' : stats?.late_tasks || 0}
-          icon={<AlertTriangle className="h-6 w-6" />}
-          color="red"
-        />
-        <StatCard
           title="Sprints Ativas"
           value={statsLoading ? '-' : stats?.active_sprints || 0}
           icon={<Timer className="h-6 w-6" />}
-          color="blue"
+          color="green"
         />
       </div>
 
