@@ -41,7 +41,7 @@ export function useStopTimeEntry() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: number) => {
-      const { data } = await api.post<ApiResponse<TimeEntry>>(`/time-entries/${id}/stop`);
+      const { data } = await api.patch<ApiResponse<TimeEntry>>(`/time-entries/${id}/stop`);
       return data;
     },
     onSuccess: () => {
