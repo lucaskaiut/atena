@@ -18,6 +18,8 @@ class SprintResource extends JsonResource
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'status' => $this->status,
+            'tasks_count' => $this->tasks_count ?? 0,
+            'completed_tasks_count' => 0,
             'indicators' => $this->indicators ?? null,
             'project' => new ProjectResource($this->whenLoaded('project')),
             'created_at' => $this->created_at,

@@ -16,7 +16,9 @@ class SprintRepository implements SprintRepositoryInterface
         if (!empty($filters['status'])) {
             $query->where('status', $filters['status']);
         }
-        return $query->with(['project'])->paginate($filters['per_page'] ?? 15);
+        return $query->with(['project'])
+            ->withCount('tasks')
+            ->paginate($filters['per_page'] ?? 15);
     }
 
     public function find(int $id)

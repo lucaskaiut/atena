@@ -22,6 +22,8 @@ class ProjectResource extends JsonResource
             'status_id' => $this->status_id,
             'sprint_id' => $this->sprint_id,
             'worked_hours' => $this->worked_hours,
+            'total_tasks_count' => $this->tasks_count ?? 0,
+            'completed_tasks_count' => 0,
             'client' => new ClientResource($this->whenLoaded('client')),
             'manager' => new UserResource($this->whenLoaded('manager')),
             'status' => new StatusResource($this->whenLoaded('status')),

@@ -35,6 +35,7 @@ class ProjectRepository implements ProjectRepositoryInterface
             $query->where('name', 'like', '%'.$filters['search'].'%');
         }
         return $query->with(['client', 'manager', 'status'])
+            ->withCount('tasks')
             ->paginate($filters['per_page'] ?? 15);
     }
 
