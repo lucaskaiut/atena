@@ -15,24 +15,24 @@ class DashboardController extends Controller
     public function index(): JsonResponse
     {
         $indicators = $this->dashboardService->getIndicators();
-        return response()->json($indicators);
+        return response()->json(['data' => $indicators]);
     }
 
     public function productivity(): JsonResponse
     {
         $productivity = $this->dashboardService->productivity();
-        return response()->json($productivity);
+        return response()->json(['data' => $productivity]);
     }
 
     public function tasksByStatus(): JsonResponse
     {
         $data = $this->dashboardService->tasksByStatus();
-        return response()->json($data);
+        return response()->json(['data' => $data]);
     }
 
     public function recentTasks(): JsonResponse
     {
         $tasks = $this->dashboardService->recentTasks();
-        return response()->json($tasks);
+        return response()->json(['data' => $tasks]);
     }
 }
