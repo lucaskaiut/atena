@@ -50,7 +50,7 @@ class TimeEntryRepository implements TimeEntryRepositoryInterface
     {
         $entry = $this->find($id);
         $now = Carbon::now();
-        $duration = $now->diffInMinutes($entry->start_time);
+        $duration = abs($now->diffInMinutes($entry->start_time));
         $entry->update([
             'end_time' => $now,
             'duration_minutes' => $duration,
