@@ -68,4 +68,16 @@ class TimeEntryController extends Controller
         $this->timeEntryService->delete($id);
         return response()->json(['message' => 'Time entry deleted']);
     }
+
+    public function running(): JsonResponse
+    {
+        $user = auth()->user();
+        $entry = $this->timeEntryService->getRunning($user->id);
+
+        if (!$entry) {
+            return response()->json(['data' => null]);
+        }
+
+        return (new TimeEntryResource($entry))->response();
+    }
 }

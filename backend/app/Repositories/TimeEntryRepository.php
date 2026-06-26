@@ -79,4 +79,12 @@ class TimeEntryRepository implements TimeEntryRepositoryInterface
             ->orderBy('start_time', 'desc')
             ->get();
     }
+
+    public function getRunning(int $userId)
+    {
+        return TimeEntry::where('user_id', $userId)
+            ->whereNull('end_time')
+            ->with(['task.project', 'user'])
+            ->first();
+    }
 }

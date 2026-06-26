@@ -65,6 +65,17 @@ export function useDeleteTimeEntry() {
   });
 }
 
+export function useRunningTimeEntry() {
+  return useQuery({
+    queryKey: ['runningTimeEntry'],
+    queryFn: async () => {
+      const { data } = await api.get<ApiResponse<TimeEntry | null>>('/time-entries/running');
+      return data.data;
+    },
+    refetchInterval: 10000,
+  });
+}
+
 export function useCreateManualEntry() {
   const queryClient = useQueryClient();
   return useMutation({

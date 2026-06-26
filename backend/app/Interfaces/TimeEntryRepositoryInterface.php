@@ -10,4 +10,5 @@ interface TimeEntryRepositoryInterface
     public function pause(int $id);
     public function resume(int $id);
     public function byTask(int $taskId);
+    public function getRunning(int $userId);
 }

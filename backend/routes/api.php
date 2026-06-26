@@ -68,6 +68,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/subtasks/{id}', [SubtaskController::class, 'destroy']);
 
     Route::post('/tasks/{taskId}/time-entries/start', [TimeEntryController::class, 'start']);
+    Route::get('/time-entries/running', [TimeEntryController::class, 'running']);
     Route::patch('/time-entries/{id}/pause', [TimeEntryController::class, 'pause']);
     Route::patch('/time-entries/{id}/resume', [TimeEntryController::class, 'resume']);
     Route::patch('/time-entries/{id}/stop', [TimeEntryController::class, 'stop']);

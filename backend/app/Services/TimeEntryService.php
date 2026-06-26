@@ -73,4 +73,9 @@ class TimeEntryService
         $entry = $this->repository->find($id);
         $entry->delete();
     }
+
+    public function getRunning(int $userId)
+    {
+        return $this->repository->getRunning($userId);
+    }
 }
