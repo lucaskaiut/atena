@@ -9,7 +9,6 @@ class SprintRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'project_id' => 'required|exists:projects,id',
             'name' => 'required|string|max:255',
             'goal' => 'nullable|string',
             'start_date' => 'required|date',

@@ -17,7 +17,6 @@ class ProjectRequest extends FormRequest
             'expected_end_date' => 'nullable|date|after_or_equal:start_date',
             'priority' => 'nullable|in:low,medium,high,critical',
             'status_id' => 'nullable|exists:statuses,id',
-            'sprint_id' => 'nullable|exists:sprints,id',
         ];
     }
 }
