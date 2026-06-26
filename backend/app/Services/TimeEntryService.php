@@ -43,6 +43,13 @@ class TimeEntryService
     public function createManual(array $data)
     {
         $data['is_manual'] = true;
+
+        if (!empty($data['start_time']) && !empty($data['end_time']) && empty($data['duration_minutes'])) {
+            $start = Carbon::parse($data['start_time']);
+            $end = Carbon::parse($data['end_time']);
+            $data['duration_minutes'] = abs($end->diffInMinutes($start));
+        }
+
         return $this->repository->create($data);
     }
 
