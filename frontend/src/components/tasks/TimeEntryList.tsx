@@ -8,7 +8,7 @@ import { Modal } from '@/components/ui/Modal';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { ManualTimeEntryForm } from '@/components/forms/ManualTimeEntryForm';
 import { ManualTimeEntryFormData } from '@/lib/validators';
-import { formatDate, formatHours } from '@/lib/utils';
+import { formatDate, formatHours, formatTime } from '@/lib/utils';
 import { Trash2, Clock, Plus } from 'lucide-react';
 
 interface TimeEntryListProps {
@@ -74,9 +74,9 @@ export function TimeEntryList({ taskId }: TimeEntryListProps) {
                         {entry.description || 'Sem descrição'}
                       </p>
                       <p className="text-xs text-gray-500">
-                        {entry.user?.name} • {formatDate(entry.start_time)}
+                        {entry.user?.name} • {formatDate(entry.start_time)} {formatTime(entry.start_time)}
                         {entry.end_time &&
-                          ` → ${formatDate(entry.end_time)}`}
+                          ` → ${formatTime(entry.end_time)}`}
                       </p>
                     </div>
                   </div>

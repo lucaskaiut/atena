@@ -13,12 +13,12 @@ interface KanbanColumnProps {
 export function KanbanColumn({ status, tasks, onDragStart, onDrop }: KanbanColumnProps) {
   return (
     <div
-      className="flex-shrink-0 w-72 flex flex-col bg-gray-100 rounded-xl"
+      className="flex-shrink-0 w-72 flex flex-col bg-gray-100 rounded-xl h-full"
       onDragOver={(e) => e.preventDefault()}
       onDrop={(e) => onDrop(e, status.id)}
     >
       <div
-        className="px-4 py-3 rounded-t-xl flex items-center justify-between"
+        className="px-4 py-3 rounded-t-xl flex items-center justify-between shrink-0"
         style={{ backgroundColor: status.color + '20' }}
       >
         <div className="flex items-center gap-2">
@@ -34,7 +34,7 @@ export function KanbanColumn({ status, tasks, onDragStart, onDrop }: KanbanColum
           {tasks.length}
         </span>
       </div>
-      <div className="flex-1 p-2 space-y-2 overflow-y-auto max-h-[calc(100vh-280px)]">
+      <div className="flex-1 p-2 space-y-2 overflow-y-auto min-h-0">
         {tasks.map((task) => (
           <KanbanCard key={task.id} task={task} onDragStart={onDragStart} />
         ))}

@@ -3,7 +3,8 @@
 import { Task } from '@/types';
 import { Badge } from '@/components/ui/Badge';
 import { getPriorityColor, getPriorityLabel } from '@/lib/utils';
-import { Clock, User } from 'lucide-react';
+import { useStartTimeEntry, useStopTimeEntry } from '@/hooks/useTimeEntries';
+import { Clock, User, Play, Pause } from 'lucide-react';
 
 interface KanbanCardProps {
   task: Task;
@@ -11,16 +12,53 @@ interface KanbanCardProps {
 }
 
 export function KanbanCard({ task, onDragStart }: KanbanCardProps) {
+  const startEntry = useStartTimeEntry();
+  const stopEntry = useStopTimeEntry();
+
+  const runningEntry = task.time_entries?.find((e) => e.end_time === null);
+  const isRunning = !!runningEntry;
+
+  function handleToggle() {
+    if (isRunning && runningEntry) {
+      stopEntry.mutate(runningEntry.id);
+    } else {
+      startEntry.mutate({ task_id: task.id });
+    }
+  }
+
+  const isPending = startEntry.isPending || stopEntry.isPending;
+
   return (
     <div
       draggable
       onDragStart={(e) => onDragStart(e, task)}
-      className="bg-white rounded-lg border border-gray-200 p-3 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow"
+      className="bg-white rounded-lg border border-gray-200 p-3 cursor-grab active:cursor-grabbing hover:shadow-md transition-shadow relative group"
     >
-      <h4 className="text-sm font-medium text-gray-900 mb-2 line-clamp-2">
-        {task.title}
-      </h4>
-      <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex items-start justify-between gap-2">
+        <h4 className="text-sm font-medium text-gray-900 line-clamp-2 flex-1">
+          {task.title}
+        </h4>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleToggle();
+          }}
+          disabled={isPending}
+          className={`shrink-0 p-1 rounded-md transition-all ${
+            isRunning
+              ? 'opacity-0 group-hover:opacity-100 text-red-500 hover:bg-red-50'
+              : 'opacity-0 group-hover:opacity-100 text-green-600 hover:bg-green-50'
+          }`}
+          title={isRunning ? 'Pausar' : 'Iniciar'}
+        >
+          {isRunning ? (
+            <Pause className="h-4 w-4" />
+          ) : (
+            <Play className="h-4 w-4" />
+          )}
+        </button>
+      </div>
+      <div className="flex items-center gap-2 flex-wrap mt-1">
         <Badge className={getPriorityColor(task.priority)}>
           {getPriorityLabel(task.priority)}
         </Badge>

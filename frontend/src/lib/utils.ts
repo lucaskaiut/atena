@@ -26,6 +26,17 @@ export function formatDate(
   }
 }
 
+export function formatTime(date: string | Date | undefined | null): string {
+  if (!date) return '';
+  try {
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return '';
+    return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  } catch {
+    return '';
+  }
+}
+
 export function formatHours(hours: number | undefined | null): string {
   if (hours == null || isNaN(hours)) return '0h';
   const h = Math.floor(hours);

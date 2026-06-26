@@ -4,15 +4,17 @@ import { useKanban } from '@/hooks/useKanban';
 import { useUpdateTaskStatus } from '@/hooks/useTasks';
 import { KanbanColumn } from './KanbanColumn';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { SearchInput } from '@/components/ui/SearchInput';
 
 interface KanbanBoardProps {
   projectId?: number;
   sprintId?: number;
+  className?: string;
 }
 
-export function KanbanBoard({ projectId, sprintId }: KanbanBoardProps) {
+export function KanbanBoard({ projectId, sprintId, className }: KanbanBoardProps) {
   const { data: columns, isLoading } = useKanban(projectId, sprintId);
   const updateStatus = useUpdateTaskStatus();
   const [search, setSearch] = useState('');
@@ -44,8 +46,8 @@ export function KanbanBoard({ projectId, sprintId }: KanbanBoardProps) {
   }));
 
   return (
-    <div>
-      <div className="mb-4">
+    <div className={cn("flex flex-col", className)}>
+      <div className="mb-4 shrink-0">
         <SearchInput
           value={search}
           onChange={setSearch}
@@ -53,7 +55,7 @@ export function KanbanBoard({ projectId, sprintId }: KanbanBoardProps) {
           className="max-w-xs"
         />
       </div>
-      <div className="flex gap-4 overflow-x-auto pb-4">
+      <div className="flex gap-4 flex-1 min-h-0 overflow-x-auto pb-4">
         {filteredColumns?.map((col) => (
           <KanbanColumn
             key={col.status_id}

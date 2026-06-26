@@ -26,10 +26,10 @@ export default function KanbanPage() {
     })) || [];
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Kanban</h1>
+    <div className="h-[calc(100vh-112px)] flex flex-col">
+      <h1 className="text-2xl font-bold text-gray-900 shrink-0">Kanban</h1>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 mt-6 shrink-0">
         <Select
           options={projectOptions}
           placeholderOption="Todos os projetos"
@@ -50,7 +50,7 @@ export default function KanbanPage() {
         />
       </div>
 
-      <KanbanBoard projectId={projectId} sprintId={sprintId} />
+      <KanbanBoard projectId={projectId} sprintId={sprintId} className="flex-1 min-h-0 mt-4" />
     </div>
   );
 }

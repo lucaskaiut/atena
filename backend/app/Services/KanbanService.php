@@ -16,7 +16,7 @@ class KanbanService
         $result = [];
         foreach ($statuses as $status) {
             $query = Task::where('status_id', $status->id)
-                ->with(['users', 'project', 'sprint']);
+                ->with(['users', 'project', 'sprint', 'timeEntries']);
 
             if (!empty($filters['project_id'])) {
                 $query->where('project_id', $filters['project_id']);
