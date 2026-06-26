@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { AuthUser } from '@/types';
 
 interface AuthState {
@@ -12,23 +13,31 @@ interface AuthState {
   setLoading: (loading: boolean) => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  token: null,
-  isAuthenticated: false,
-  isLoading: true,
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      token: null,
+      isAuthenticated: false,
+      isLoading: true,
 
-  setAuth: (token: string, user: AuthUser) => {
-    set({ token, user, isAuthenticated: true, isLoading: false });
-  },
+      setAuth: (token: string, user: AuthUser) => {
+        set({ token, user, isAuthenticated: true, isLoading: false });
+      },
 
-  setUser: (user: AuthUser) => {
-    set({ user, isAuthenticated: true, isLoading: false });
-  },
+      setUser: (user: AuthUser) => {
+        set({ user, isAuthenticated: true, isLoading: false });
+      },
 
-  clearAuth: () => {
-    set({ token: null, user: null, isAuthenticated: false, isLoading: false });
-  },
+      clearAuth: () => {
+        set({ token: null, user: null, isAuthenticated: false, isLoading: false });
+      },
 
-  setLoading: (loading: boolean) => set({ isLoading: loading }),
-}));
+      setLoading: (loading: boolean) => set({ isLoading: loading }),
+    }),
+    {
+      name: 'atena-auth',
+      partialize: (state) => ({ token: state.token, user: state.user }),
+    }
+  )
+);
