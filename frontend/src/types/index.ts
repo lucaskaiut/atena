@@ -145,8 +145,7 @@ export interface Sprint {
   goal?: string;
   start_date: string;
   end_date: string;
-  is_active: boolean;
-  completed_at?: string;
+  status: string;
   created_at: string;
   updated_at: string;
   tasks_count?: number;

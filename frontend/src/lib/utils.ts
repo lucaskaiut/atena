@@ -92,6 +92,24 @@ export function getTimeStatusColor(
   return 'text-green-600';
 }
 
+export function getSprintStatusColor(status: string): string {
+  const colors: Record<string, string> = {
+    planning: 'bg-yellow-100 text-yellow-800',
+    active: 'bg-green-100 text-green-800',
+    completed: 'bg-gray-100 text-gray-800',
+  };
+  return colors[status] || 'bg-gray-100 text-gray-800';
+}
+
+export function getSprintStatusLabel(status: string): string {
+  const labels: Record<string, string> = {
+    planning: 'Planejamento',
+    active: 'Ativa',
+    completed: 'Concluída',
+  };
+  return labels[status] || status;
+}
+
 export function getStatusColor(status: string | undefined): string {
   if (!status) return 'bg-gray-100 text-gray-800';
   const colors: Record<string, string> = {

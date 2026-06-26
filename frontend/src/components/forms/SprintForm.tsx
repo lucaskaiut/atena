@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { sprintSchema, SprintFormData } from '@/lib/validators';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import { Select } from '@/components/ui/Select';
 import { Sprint } from '@/types';
 
 interface SprintFormProps {
@@ -26,6 +27,7 @@ export function SprintForm({ onSubmit, isLoading, initialData }: SprintFormProps
           goal: initialData.goal || '',
           start_date: initialData.start_date?.split('T')[0] || '',
           end_date: initialData.end_date?.split('T')[0] || '',
+          status: initialData.status as SprintFormData['status'],
         }
       : {
           name: '',
@@ -70,6 +72,18 @@ export function SprintForm({ onSubmit, isLoading, initialData }: SprintFormProps
           error={errors.end_date?.message}
         />
       </div>
+      {initialData && (
+        <Select
+          label="Status"
+          options={[
+            { value: 'planning', label: 'Planejamento' },
+            { value: 'active', label: 'Ativa' },
+            { value: 'completed', label: 'Concluída' },
+          ]}
+          {...register('status')}
+          error={errors.status?.message}
+        />
+      )}
       <div className="flex justify-end pt-2">
         <Button type="submit" isLoading={isLoading}>
           {initialData ? 'Atualizar' : 'Criar'} Sprint

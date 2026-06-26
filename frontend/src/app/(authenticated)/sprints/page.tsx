@@ -16,8 +16,8 @@ import { Pagination } from '@/components/ui/Pagination';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { SprintForm } from '@/components/forms/SprintForm';
 import { Sprint } from '@/types';
-import { formatDate } from '@/lib/utils';
-import { Plus, Pencil, CheckCircle2 } from 'lucide-react';
+import { formatDate, getSprintStatusColor, getSprintStatusLabel } from '@/lib/utils';
+import { Plus, Pencil, CheckCircle2, Play } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function SprintsPage() {
@@ -88,14 +88,8 @@ export default function SprintsPage() {
       key: 'status',
       header: 'Status',
       render: (s: Sprint) => (
-        <Badge
-          className={
-            s.is_active
-              ? 'bg-green-100 text-green-800'
-              : 'bg-gray-100 text-gray-800'
-          }
-        >
-          {s.is_active ? 'Ativa' : 'Fechada'}
+        <Badge className={getSprintStatusColor(s.status)}>
+          {getSprintStatusLabel(s.status)}
         </Badge>
       ),
     },
@@ -114,7 +108,20 @@ export default function SprintsPage() {
           >
             <Pencil className="h-4 w-4" />
           </Button>
-          {s.is_active && (
+          {s.status === 'planning' && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                updateSprint.mutate({ id: s.id, status: 'active', name: s.name, start_date: s.start_date, end_date: s.end_date });
+              }}
+              title="Iniciar Sprint"
+            >
+              <Play className="h-4 w-4 text-green-600" />
+            </Button>
+          )}
+          {s.status === 'active' && (
             <Button
               variant="ghost"
               size="sm"

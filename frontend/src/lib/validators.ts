@@ -64,6 +64,7 @@ export const sprintSchema = z.object({
   goal: z.string().optional().or(z.literal('')),
   start_date: z.string().min(1, 'Data de início é obrigatória'),
   end_date: z.string().min(1, 'Data de término é obrigatória'),
+  status: z.enum(['planning', 'active', 'completed']).optional(),
 });
 
 export const statusSchema = z.object({

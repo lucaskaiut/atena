@@ -7,7 +7,7 @@ import { Card, CardHeader, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Table } from '@/components/ui/Table';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { getPriorityColor, getPriorityLabel, formatDate } from '@/lib/utils';
+import { getPriorityColor, getPriorityLabel, formatDate, getSprintStatusColor, getSprintStatusLabel } from '@/lib/utils';
 import { Task } from '@/types';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -65,14 +65,8 @@ export default function SprintDetailPage() {
         </Link>
         <div className="flex items-center gap-3 mt-2">
           <h1 className="text-2xl font-bold text-gray-900">{sprint.name}</h1>
-          <Badge
-            className={
-              sprint.is_active
-                ? 'bg-green-100 text-green-800'
-                : 'bg-gray-100 text-gray-800'
-            }
-          >
-            {sprint.is_active ? 'Ativa' : 'Fechada'}
+          <Badge className={getSprintStatusColor(sprint.status)}>
+            {getSprintStatusLabel(sprint.status)}
           </Badge>
         </div>
       </div>
